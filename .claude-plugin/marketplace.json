@@ -1,0 +1,13 @@
+{
+  "name": "cosmos-makers",
+  "owner": {
+    "name": "cosmos-makers"
+  },
+  "plugins": [
+    {
+      "name": "writer-persona",
+      "description": "Extract your writing persona from real messages, measure its accuracy, and write in your voice.",
+      "source": "."
+    }
+  ]
+}
