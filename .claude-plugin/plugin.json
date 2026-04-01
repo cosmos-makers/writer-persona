@@ -1,0 +1,11 @@
+{
+  "name": "writer-persona",
+  "description": "Extract your writing persona from real messages, measure its accuracy, and write in your voice — powered by an 8-axis linguistic evaluation framework.",
+  "version": "1.0.0",
+  "author": {
+    "name": "cosmos-makers"
+  },
+  "repository": "https://github.com/cosmos-makers/writer-persona",
+  "license": "MIT",
+  "keywords": ["persona", "writing-style", "stylometry", "backtest", "ghostwriting"]
+}

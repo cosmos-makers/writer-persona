@@ -1,6 +1,6 @@
 # writer-persona
 
-A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill that extracts your writing persona from real messages, measures its accuracy, and writes in your voice.
+A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin that extracts your writing persona from real messages, measures its accuracy, and writes in your voice.
 
 ## The Problem
 
@@ -28,13 +28,16 @@ The AI never sees your actual response when generating drafts — it only gets t
 
 | Command | What it does |
 |---------|-------------|
-| `/writer-persona` | Show persona status and score |
-| `/writer-persona --bootstrap` | Extract persona from 100+ real messages |
-| `/writer-persona --backtest` | Measure accuracy (last 24h by default) |
-| `/writer-persona --backtest --days 7` | Measure over last 7 days |
-| `/writer-persona --calibrate` | Manual tuning with your feedback |
-| `/writer-persona --write "context"` | Write as you in a given situation |
-| `/writer-persona --write` | Interactive: describe the situation, get a draft |
+| `/writer-persona:writer-persona` | Show persona status and score |
+| `/writer-persona:writer-persona --bootstrap` | Extract persona from 100+ real messages |
+| `/writer-persona:writer-persona --backtest` | Measure accuracy (last 24h by default) |
+| `/writer-persona:writer-persona --backtest --days 7` | Measure over last 7 days |
+| `/writer-persona:writer-persona --calibrate` | Manual tuning with your feedback |
+| `/writer-persona:writer-persona --write "context"` | Write as you in a given situation |
+| `/writer-persona:writer-persona --write` | Interactive: describe the situation, get a draft |
+
+> **Note**: When installed as a plugin, commands use the `plugin-name:skill-name` format.
+> If installed as a local skill (in `.claude/skills/`), use `/writer-persona` directly.
 
 ## Key Features
 
@@ -62,21 +65,47 @@ See [`references/evaluation-rubric.md`](references/evaluation-rubric.md) for the
 
 ## Installation
 
-```bash
-git clone https://github.com/cosmos-makers/writer-persona.git
+### Via Plugin Marketplace (Recommended)
 
-# Copy into your Claude Code skills directory
-cp -r writer-persona /path/to/your/project/.claude/skills/writer-persona
+If the marketplace hosting this plugin is already added:
+
+```
+/plugin install writer-persona@<marketplace-name>
 ```
 
-Or manually copy the files into `.claude/skills/writer-persona/` in any project where you use Claude Code.
+### From GitHub
+
+Add this repo as a marketplace source, then install:
+
+```
+/plugin marketplace add cosmos-makers/writer-persona
+/plugin install writer-persona@writer-persona
+```
+
+### Local Development
+
+Test the plugin locally without installing:
+
+```bash
+git clone https://github.com/cosmos-makers/writer-persona.git
+claude --plugin-dir ./writer-persona
+```
+
+### Manual (Legacy)
+
+Copy the plugin into your project's `.claude/plugins/` directory:
+
+```bash
+git clone https://github.com/cosmos-makers/writer-persona.git
+cp -r writer-persona /path/to/your/project/.claude/plugins/writer-persona
+```
 
 ## Quick Start
 
 ### 1. Extract your persona
 
 ```
-/writer-persona --bootstrap
+/writer-persona:writer-persona --bootstrap
 ```
 
 The skill asks you:
@@ -89,7 +118,7 @@ Then it analyzes 100+ messages and builds a comprehensive writing persona.
 ### 2. Measure accuracy
 
 ```
-/writer-persona --backtest
+/writer-persona:writer-persona --backtest
 ```
 
 Finds recent conversations where you responded, generates AI drafts *without seeing your answers*, and scores them on 8 axes.
@@ -97,12 +126,12 @@ Finds recent conversations where you responded, generates AI drafts *without see
 ### 3. Write in your voice
 
 ```
-/writer-persona --write "reply to Sarah's Slack message about the API deadline"
+/writer-persona:writer-persona --write "reply to Sarah's Slack message about the API deadline"
 ```
 
 Or interactively:
 ```
-/writer-persona --write
+/writer-persona:writer-persona --write
 ```
 The skill asks who you're writing to, what the situation is, and generates a draft in your style.
 
@@ -134,20 +163,26 @@ The draft-generating agent **never sees your actual response**. It only receives
 
 ```
 writer-persona/
-├── SKILL.md                    # Main skill definition
-├── persona.template.md         # Blank persona template
-├── references/
-│   └── evaluation-rubric.md    # 8-axis framework + academic citations
-└── examples/
-    ├── persona-english.md      # Example: English persona
-    └── persona-korean.md       # Example: Korean persona
+├── .claude-plugin/
+│   └── plugin.json             # Plugin manifest
+├── skills/
+│   └── writer-persona/
+│       ├── SKILL.md            # Main skill definition
+│       ├── persona.template.md # Blank persona template
+│       ├── references/
+│       │   └── evaluation-rubric.md  # 8-axis framework + citations
+│       └── examples/
+│           ├── persona-english.md    # Example: English persona
+│           └── persona-korean.md     # Example: Korean persona
+├── README.md
+└── LICENSE
 ```
 
-After running, the skill creates:
+After running, the skill creates user-specific files (gitignored):
 ```
-writer-persona/
-├── persona.md                  # Your persona (gitignored — personal data)
-└── reports/                    # Backtest reports (gitignored)
+skills/writer-persona/
+├── persona.md                  # Your persona (personal data)
+└── reports/                    # Backtest reports
 ```
 
 ## Academic Foundations

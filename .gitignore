@@ -7,5 +7,5 @@ Thumbs.db
 .idea/
 
 # Persona data (user-specific, don't commit)
-persona.md
-reports/
+skills/writer-persona/persona.md
+skills/writer-persona/reports/
