@@ -7,7 +7,10 @@
     {
       "name": "writer-persona",
       "description": "Extract your writing persona from real messages, measure its accuracy, and write in your voice.",
-      "source": "https://github.com/cosmos-makers/writer-persona.git"
+      "source": {
+        "source": "url",
+        "url": "https://github.com/cosmos-makers/writer-persona.git"
+      }
     }
   ]
 }
